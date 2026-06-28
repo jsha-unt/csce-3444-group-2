@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LEGv8 Assembly UI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="grid">
+    <div>
+      <textarea id="src" spellcheck="false">
+ADDI X0, XZR, #5
+ADDI X1, XZR, #3
+ADD X2, X0, X1
+SUB X3, X0, X1
+ADD X4, X2, X2
+      </textarea>
+      <div class="controls">
+        <button id="step">Run Step</button>
+      </div>
+    </div>
+    <div class="registers">
+      <span>Registers</span>
+      <div id="regs" class="regs"></div>
+    </div>
+  </div>
+</div>
+<script src="src/main.js" type="module"></script>
+</body>
+</html>

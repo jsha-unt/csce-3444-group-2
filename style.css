@@ -1,0 +1,90 @@
+:root {
+    --bg: #1e1e1e;
+    --surface: #2d2d2d;
+    --text: #c6c6c6;
+    --border: rgba(255, 255, 255, 0.14);
+    --mono: ui-monospace, monospace;
+    --sans: ui-sans-serif, system-ui, sans-serif;
+    --radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 2rem;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+}
+
+.wrap {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    gap: 1rem;
+}
+
+textarea {
+    width: 100%;
+    min-height: 170px;
+    resize: vertical;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 10px 12px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+}
+
+.controls {
+    display: flex;
+    margin-top: 10px;
+}
+
+button {
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 7px 14px;
+    background: transparent;
+    color: var(--text);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+}
+
+button:hover {
+    background: var(--surface);
+}
+
+.regs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 6px;
+}
+
+.register {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: baseline;
+    padding: 7px 10px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    background: var(--surface);
+}
+
+.register .name {
+    font-weight: bold;
+}
+
+.register .val {
+    font-family: var(--mono);
+}
