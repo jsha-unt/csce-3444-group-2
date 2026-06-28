@@ -5,3 +5,8 @@ Group members:
 - Derian Mendez
 - John Shaffer
 - Syed Hussain
+
+### Development
+
+If python is installed, the app can be served via `python3 -m http.server 8080` and viewed at http://localhost:8080.
+Any equivalent HTTP file server can be used.
