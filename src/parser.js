@@ -11,9 +11,13 @@ function parseRegister(token) {
 }
 
 function parseOperand(token) {
+    var op = { token: token };
+
     let char = token[0];
-    if (char == 'X') return { register: parseRegister(token) };
-    if (char == '#') return { immediate: token.slice(1) };
+    if (char == 'X') op.register = parseRegister(token);
+    else if (char == '#') op.immediate = token.slice(1);
+
+    return op;
 }
 
 function parseInstruction(name, line, startIndex) {
@@ -47,6 +51,8 @@ function parseLine(line) {
         let char = str[i];
         if (char == ' ' || char == '\t') {
             return parseInstruction(token, line, i + 1);
+        } else if (char == ':') {
+            return { label: token };
         } else {
             token += char;
         }
@@ -57,12 +63,38 @@ function parseLine(line) {
 }
 
 export function parseAssembly(sourceText) {
-    var instructions = [];
+    var parsed = [];
 
     // Split up and parse each line separately
     for (const line of sourceText.split('\n')) {
-        let instruction = parseLine(line);
-        if (instruction) instructions.push(instruction);
+        let x = parseLine(line);
+        if (x) parsed.push(x);
+    }
+
+    var instructions = [];
+
+    for (var i = 0; i < parsed.length; i++) {
+        let x = parsed[i];
+        if (x.label) {
+            // Merge label with the actual instruction
+            // If label is at the very end of the program, make it a NOP instruction
+            if (i + 1 < parsed.length) {
+                let next = parsed[i + 1];
+                if (next.name) {
+                    next.label = x.label;
+                    instructions.push(next);
+                    i++;
+                } else {
+                    x.name = 'NOP';
+                    instructions.push(x);
+                }
+            } else {
+                x.name = 'NOP';
+                instructions.push(x);
+            }
+        } else {
+            instructions.push(x);
+        }
     }
 
     return instructions;

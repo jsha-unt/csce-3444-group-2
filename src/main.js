@@ -2,6 +2,7 @@ import { executionResult } from './execute.js';
 import { parseAssembly } from './parser.js';
 import { renderRegs, updateExecutionResult } from './ui.js';
 
+var labelAddresses = null;
 var progMem = null;
 var NUM_REGS = 32; // Number of registers of each category
 var regs;
@@ -16,14 +17,28 @@ function init() {
     renderRegs(regsEl, regs);
 }
 
+// TODO: This is not the real memory system, just a way to get
+// things off the ground for now.
+function loadProgMem(program) {
+    labelAddresses = {};
+    progMem = [];
+
+    for (const instruction of program) {
+        if (instruction.label)
+            labelAddresses[instruction.label] = progMem.length * 4;
+        progMem.push(instruction);
+    }
+    console.log(progMem, labelAddresses);
+}
+
 /* Execute one instruction */
 function step() {
-    if (!progMem) progMem = parseAssembly(srcEl.value);
+    if (!progMem) loadProgMem(parseAssembly(srcEl.value));
 
     let instruction = progMem[regs.PC / 4];
     if (!instruction) return;
 
-    let result = executionResult(instruction, regs);
+    let result = executionResult(instruction, regs, labelAddresses);
     updateExecutionResult(result);
 
     for (const name in result.registersTouched) {
