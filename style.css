@@ -88,3 +88,17 @@ button:hover {
 .register .val {
     font-family: var(--mono);
 }
+
+@keyframes reg-flash {
+    0% {
+        background: #007b19;
+    }
+
+    100% {
+        background: var(--surface);
+    }
+}
+
+.register.touched {
+    animation: reg-flash 0.6s ease-out;
+}

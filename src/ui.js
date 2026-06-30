@@ -26,5 +26,9 @@ export function updateExecutionResult(executionResult) {
         let registerEl = document.getElementById('register-' + name);
         let valEl = registerEl.getElementsByClassName('val')[0];
         valEl.innerHTML = intToHex(executionResult.registersTouched[name]);
+
+        registerEl.classList.remove('touched');
+        void registerEl.offsetWidth; // Force reflow to make animation restart if already playing
+        registerEl.classList.add('touched');
     }
 }
