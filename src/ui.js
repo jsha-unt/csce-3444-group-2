@@ -19,3 +19,12 @@ export function renderRegs(regsEl, regs) {
         regsEl.appendChild(registerElement(name, regs[name]));
     }
 }
+
+/* Update just the UI elements affected by the execution result */
+export function updateExecutionResult(executionResult) {
+    for (const name in executionResult.registersTouched) {
+        let registerEl = document.getElementById('register-' + name);
+        let valEl = registerEl.getElementsByClassName('val')[0];
+        valEl.innerHTML = intToHex(executionResult.registersTouched[name]);
+    }
+}

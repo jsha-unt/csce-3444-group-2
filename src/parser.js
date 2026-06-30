@@ -1,6 +1,18 @@
+let registerAliases = {
+    SP: 'X28', // Stack Pointer
+    FP: 'X29', // Frame Pointer
+    LR: 'X30', // Link Return (e.g., caller return address)
+    XZR: 'X31', // X ZeRo
+};
+
+function parseRegister(token) {
+    if (registerAliases[token]) return registerAliases[token];
+    return token;
+}
+
 function parseOperand(token) {
     let char = token[0];
-    if (char == 'X') return { register: token };
+    if (char == 'X') return { register: parseRegister(token) };
     if (char == '#') return { immediate: token.slice(1) };
 }
 
