@@ -13,6 +13,8 @@ function init() {
     // Initialize all registers
     regs = { PC: 0 };
     for (let i = 0; i < NUM_REGS; i++) regs["X" + i] = 0;
+    for (let i = 0; i < NUM_REGS; i++) regs["S" + i] = 0;
+    for (let i = 0; i < NUM_REGS; i++) regs["D" + i] = 0;
 
     renderRegs(regsEl, regs);
 }
