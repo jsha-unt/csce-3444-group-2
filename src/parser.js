@@ -15,7 +15,7 @@ function parseOperand(token) {
 
     let char = token[0];
     if (char == 'X') op.register = parseRegister(token);
-    else if (char == '#') op.immediate = token.slice(1);
+    else if (char == '#') op.immediate = parseInt(token.slice(1));
 
     return op;
 }
