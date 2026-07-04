@@ -9,6 +9,16 @@ export function executionResult(instruction, registers, labelAddresses) {
         case 'B':
             regs.PC = labelAddresses[ops[0].token];
             break;
+        case 'CBNZ':
+            if (registers[ops[0].register] !== 0) {
+                regs.PC = labelAddresses[ops[1].token];
+            }
+            break;
+        case 'CBZ':
+            if (registers[ops[0].register] === 0) {
+                regs.PC = labelAddresses[ops[1].token];
+            }
+            break;
     }
 
     return {
