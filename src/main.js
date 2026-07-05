@@ -2,6 +2,7 @@ import { executionResult } from './execute.js';
 import { parseAssembly } from './parser.js';
 import { renderRegs, updateExecutionResult } from './ui.js';
 
+var flags = null;
 var labelAddresses = null;
 var progMem = null;
 var NUM_REGS = 32; // Number of registers of each category
@@ -10,6 +11,7 @@ var regsEl = document.getElementById('regs');
 var srcEl = document.getElementById('src');
 
 function init() {
+    flags = { C: 0, N: 0, V: 0, Z: 0 };
     // Initialize all registers
     regs = { PC: 0 };
     for (let i = 0; i < NUM_REGS; i++) regs["X" + i] = 0;
@@ -40,8 +42,12 @@ function step() {
     let instruction = progMem[regs.PC / 4];
     if (!instruction) return;
 
-    let result = executionResult(instruction, regs, labelAddresses);
+    let result = executionResult(instruction, regs, flags, labelAddresses);
     updateExecutionResult(result);
+
+    for (const name in result.flagsTouched) {
+        flags[name] = result.flagsTouched[name];
+    }
 
     for (const name in result.registersTouched) {
         regs[name] = result.registersTouched[name];

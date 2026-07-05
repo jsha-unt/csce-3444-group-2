@@ -1,5 +1,6 @@
-export function executionResult(instruction, registers, labelAddresses) {
+export function executionResult(instruction, registers, flags, labelAddresses) {
     let ops = instruction.operands;
+    var flgs = {};
     var regs = { PC: registers.PC + 4 };
 
     switch (instruction.name) {
@@ -22,6 +23,7 @@ export function executionResult(instruction, registers, labelAddresses) {
     }
 
     return {
+        flagsTouched: flgs,
         registersTouched: regs,
     };
 }
