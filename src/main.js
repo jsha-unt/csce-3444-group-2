@@ -1,22 +1,18 @@
 import { executionResult } from './execute.js';
+import { makeFlags, makeRegisters } from './state.js';
 import { parseAssembly } from './parser.js';
 import { renderRegs, updateExecutionResult } from './ui.js';
 
 var flags = null;
 var labelAddresses = null;
 var progMem = null;
-var NUM_REGS = 32; // Number of registers of each category
 var regs;
 var regsEl = document.getElementById('regs');
 var srcEl = document.getElementById('src');
 
 function init() {
-    flags = { C: 0, N: 0, V: 0, Z: 0 };
-    // Initialize all registers
-    regs = { PC: 0 };
-    for (let i = 0; i < NUM_REGS; i++) regs["X" + i] = 0;
-    for (let i = 0; i < NUM_REGS; i++) regs["S" + i] = 0;
-    for (let i = 0; i < NUM_REGS; i++) regs["D" + i] = 0;
+    flags = makeFlags();
+    regs = makeRegisters();
 
     renderRegs(regsEl, regs);
 }
