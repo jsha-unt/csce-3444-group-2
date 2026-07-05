@@ -5,6 +5,22 @@ let registerAliases = {
     XZR: 'X31', // X ZeRo
 };
 
+/* Rewrite psuedo-instructions and mnemonic instructions
+ * to their actual machine instruction.
+**/
+function rewritePsuedoInstructions(instruction) {
+    switch (instruction.name) {
+        case 'B.CC':
+            instruction.name = 'B.LO';
+            break;
+        case 'B.CS':
+            instruction.name = 'B.HS';
+            break;
+    }
+
+    return instruction;
+}
+
 function parseRegister(token) {
     if (registerAliases[token]) return registerAliases[token];
     return token;
@@ -38,7 +54,7 @@ function parseInstruction(name, line, startIndex) {
 
     if (token) operands.push(parseOperand(token));
 
-    return { name: name, operands: operands };
+    return rewritePsuedoInstructions({ name: name, operands: operands });
 }
 
 function parseLine(line) {
