@@ -1,6 +1,8 @@
-# Group 2 Project
+# LEGv8 Assembly Simulator
 
-Group members:
+The latest deployed version is available at https://jsha-unt.github.io/csce-3444-group-2/.
+
+### Members
 - Ashley Lira
 - Derian Mendez
 - John Shaffer
