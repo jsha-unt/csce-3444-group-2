@@ -21,6 +21,10 @@ body {
     font-size: 15px;
 }
 
+label {
+    font-weight: bold;
+}
+
 .wrap {
     max-width: 960px;
     margin: 0 auto;
