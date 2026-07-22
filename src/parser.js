@@ -22,14 +22,15 @@ function rewritePsuedoInstructions(instruction) {
 }
 
 function parseRegister(token) {
-    if (registerAliases[token]) return registerAliases[token];
-    return token;
+    let s = token.toUpperCase();
+    if (registerAliases[s]) return registerAliases[s];
+    return s;
 }
 
 function parseOperand(token) {
     var op = { token: token };
 
-    let char = token[0];
+    let char = token[0].toUpperCase();
     if (char == 'X') op.register = parseRegister(token);
     else if (char == '#') op.immediate = parseInt(token.slice(1));
 
