@@ -75,7 +75,7 @@ function parseLine(line) {
     while (i < str.length) {
         let char = str[i];
         if (char == ' ' || char == '\t') {
-            return parseInstruction(token, line, i + 1);
+            return parseInstruction(token, str, i + 1);
         } else if (char == ':') {
             return { label: token };
         } else {
