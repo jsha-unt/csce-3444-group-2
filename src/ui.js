@@ -41,6 +41,14 @@ function instructionToText(instruction) {
 
 /* Show the instruction currently being executed */
 export function renderCurrentInstruction(instruction) {
+    let commentEl = document.getElementById('current-instr-comment');
+
+    if (instruction.comment) {
+        commentEl.textContent = instruction.comment;
+    } else {
+        commentEl.textContent = '';
+    }
+
     let instrEl = document.getElementById('current-instr-text');
     instrEl.textContent = instructionToText(instruction);
 }
