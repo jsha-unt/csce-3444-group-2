@@ -39,6 +39,7 @@ function parseOperand(token) {
 
 function parseInstruction(name, line, startIndex) {
     var i = startIndex;
+    var instr = { name: name };
     let operands = [];
 
     var token = '';
@@ -47,6 +48,11 @@ function parseInstruction(name, line, startIndex) {
         if (char == ',') {
             operands.push(parseOperand(token));
             token = '';
+        } else if (char == '/' && line[i + 1] == '/') {
+            if (line.length > i + 2) {
+                instr.comment = line.substring(i + 2).trim();
+            }
+            i = line.length;
         } else if (char != ' ' && char != '\t') {
             token += char;
         }
@@ -55,7 +61,9 @@ function parseInstruction(name, line, startIndex) {
 
     if (token) operands.push(parseOperand(token));
 
-    return rewritePsuedoInstructions({ name: name, operands: operands });
+    instr.operands = operands;
+
+    return rewritePsuedoInstructions(instr);
 }
 
 function parseLine(line) {
