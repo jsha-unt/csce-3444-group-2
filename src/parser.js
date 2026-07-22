@@ -31,7 +31,7 @@ function parseOperand(token) {
     var op = { token: token };
 
     let char = token[0].toUpperCase();
-    if (char == 'X') op.register = parseRegister(token);
+    if (char == 'D' || char == 'S' || char == 'X') op.register = parseRegister(token);
     else if (char == '#') op.immediate = parseInt(token.slice(1));
 
     return op;
