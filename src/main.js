@@ -1,7 +1,7 @@
 import { executionResult } from './execute.js';
 import { makeFlags, makeRegisters } from './state.js';
 import { parseAssembly } from './parser.js';
-import { renderRegs, updateExecutionResult } from './ui.js';
+import { renderRegs, updateExecutionResult, renderCurrentInstruction } from './ui.js';
 
 var flags = null;
 var labelAddresses = null;
@@ -38,6 +38,7 @@ function step() {
     let instruction = progMem[regs.PC / 4];
     if (!instruction) return;
 
+    renderCurrentInstruction(instruction);
     let result = executionResult(instruction, regs, flags, labelAddresses);
     updateExecutionResult(result);
 

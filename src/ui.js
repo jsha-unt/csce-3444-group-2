@@ -20,6 +20,31 @@ export function renderRegs(regsEl, regs) {
     }
 }
 
+/* Returns a canonical textual representation of an instruction */
+function instructionToText(instruction) {
+    var text = instruction.name;
+
+    if (instruction.operands) {
+        for (let i in instruction.operands) {
+            let op = instruction.operands[i];
+
+            if (i > 0) text += ',';
+
+            if (op.immediate) text += ' #' + op.immediate;
+            else if (op.register) text += " " + op.register;
+            else text += " " + op.token;
+        }
+    }
+
+    return text;
+}
+
+/* Show the instruction currently being executed */
+export function renderCurrentInstruction(instruction) {
+    let instrEl = document.getElementById('current-instr-text');
+    instrEl.textContent = instructionToText(instruction);
+}
+
 /* Update just the UI elements affected by the execution result */
 export function updateExecutionResult(executionResult) {
     for (const name in executionResult.registersTouched) {

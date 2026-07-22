@@ -54,6 +54,22 @@ textarea {
     margin-top: 10px;
 }
 
+.current-instr {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+#current-instr-text {
+    font-family: var(--mono);
+}
+
 button {
     font-family: var(--sans);
     font-size: 14px;
