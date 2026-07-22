@@ -4,6 +4,9 @@ export function executionResult(instruction, registers, flags, labelAddresses) {
     var regs = { PC: registers.PC + 4 };
 
     switch (instruction.name) {
+        case 'ADD':
+            regs[ops[0].register] = registers[ops[1].register] + registers[ops[2].register];
+            break;
         case 'ADDI':
             regs[ops[0].register] = registers[ops[1].register] + ops[2].immediate;
             break;
@@ -89,6 +92,12 @@ export function executionResult(instruction, registers, flags, labelAddresses) {
             if (flags.V === 1) {
                 regs.PC = labelAddresses[ops[0].token];
             }
+            break;
+        case 'SUB':
+            regs[ops[0].register] = registers[ops[1].register] - registers[ops[2].register];
+            break;
+        case 'SUBI':
+            regs[ops[0].register] = registers[ops[1].register] - ops[2].immediate;
             break;
     }
 
