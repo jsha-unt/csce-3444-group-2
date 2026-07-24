@@ -69,7 +69,8 @@ textarea {
     font-family: var(--mono);
     font-size: 15px;
     color: var(--text);
-    margin-top: 12pt;
+    margin-bottom: 4pt;
+    margin-top: 4pt;
     white-space: pre;
 }
 

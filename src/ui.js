@@ -51,8 +51,8 @@ export function renderCurrentInstruction(instruction, executionResult) {
 
     let instrEl = document.getElementById('current-instr-text');
     var instrText = '';
-    if (instruction.label) instrText += instruction.label + ':\n';
-    instrText += '    ' + instructionToText(instruction);
+    if (instruction.label) instrText += instruction.label + ':';
+    instrText += '\n    ' + instructionToText(instruction);
     instrEl.textContent = instrText;
 
     let regs = executionResult.registersTouched;
