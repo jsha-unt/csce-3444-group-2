@@ -38,8 +38,9 @@ function step() {
     let instruction = progMem[regs.PC / 4];
     if (!instruction) return;
 
+    let preRegs = structuredClone(regs);
     let result = executionResult(instruction, regs, flags, labelAddresses);
-    renderCurrentInstruction(instruction, result);
+    renderCurrentInstruction(instruction, result, preRegs);
     updateExecutionResult(result);
 
     for (const name in result.flagsTouched) {

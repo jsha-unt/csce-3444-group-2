@@ -3,6 +3,14 @@ function intToHex(x) {
     return "0x" + (x >>> 0).toString(16).toUpperCase().padStart(8, "0");
 }
 
+/* Returns an element representing a register name and changed value */
+function registerChangeElement(name, startValue, endValue) {
+    var card = document.createElement('div');
+    card.className = 'register';
+    card.innerHTML = '<span class="name">' + name + '</span><span class="val">' + intToHex(startValue) + ' -> ' + intToHex(endValue) + '</span>';
+    return card;
+}
+
 /* Returns an element representing a register name and value */
 function registerElement(name, value) {
     var card = document.createElement('div');
@@ -40,7 +48,7 @@ function instructionToText(instruction) {
 }
 
 /* Show the instruction currently being executed */
-export function renderCurrentInstruction(instruction, executionResult) {
+export function renderCurrentInstruction(instruction, executionResult, preRegs) {
     let commentEl = document.getElementById('current-instr-comment');
 
     if (instruction.comment) {
@@ -59,8 +67,7 @@ export function renderCurrentInstruction(instruction, executionResult) {
     let regsEl = document.getElementById('current-instr-registers');
     regsEl.innerHTML = '';
     for (const name in regs) {
-        let el = registerElement(name, regs[name]);
-        el.id = null;
+        let el = registerChangeElement(name, preRegs[name], regs[name]);
         regsEl.appendChild(el);
     }
 }
