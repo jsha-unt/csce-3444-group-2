@@ -7,7 +7,7 @@ function intToHex(x) {
 function registerChangeElement(name, startValue, endValue) {
     var card = document.createElement('div');
     card.className = 'register';
-    card.innerHTML = '<span class="name">' + name + '</span><span class="val">' + intToHex(startValue) + ' -> ' + intToHex(endValue) + '</span>';
+    card.innerHTML = '<span class="name">' + name + '</span><span class="val">' + intToHex(startValue) + ' -> ' + intToHex(endValue) + '<br>(' + startValue + ' -> ' + endValue + ')</span>';
     return card;
 }
 
