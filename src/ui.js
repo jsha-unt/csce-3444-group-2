@@ -50,7 +50,10 @@ export function renderCurrentInstruction(instruction) {
     }
 
     let instrEl = document.getElementById('current-instr-text');
-    instrEl.textContent = instructionToText(instruction);
+    var instrText = '';
+    if (instruction.label) instrText += instruction.label + ':\n';
+    instrText += '    ' + instructionToText(instruction);
+    instrEl.textContent = instrText;
 }
 
 /* Update just the UI elements affected by the execution result */

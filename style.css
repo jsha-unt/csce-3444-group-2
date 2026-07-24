@@ -70,6 +70,7 @@ textarea {
     font-size: 15px;
     color: var(--text);
     margin-top: 12pt;
+    white-space: pre;
 }
 
 button {
