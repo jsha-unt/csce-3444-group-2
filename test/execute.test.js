@@ -41,6 +41,20 @@ test('B.EQ does not branch when Z flag is 0', () => {
     assert.deepEqual(result.flagsTouched, {});
 });
 
+test('B.NE branches when Z flag is 0', () => {
+    const instruction = parseOne('B.NE done');
+    const result = executionResult(instruction, makeRegisters({ PC }), makeFlags({ Z: 0 }), { done: 300 });
+    assert.deepEqual(result.registersTouched, { PC: 300 });
+    assert.deepEqual(result.flagsTouched, {});
+});
+
+test('B.NE does not branch when Z flag is 1', () => {
+    const instruction = parseOne('B.NE done');
+    const result = executionResult(instruction, makeRegisters({ PC }), makeFlags({ Z: 1 }), { done: 300 });
+    assert.deepEqual(result.registersTouched, { PC: PC + 4 });
+    assert.deepEqual(result.flagsTouched, {});
+});
+
 test('CBNZ branches when register is not zero', () => {
     const instruction = parseOne('CBNZ X0, loop');
     const result = executionResult(instruction, makeRegisters({ PC, X0: 42 }), makeFlags(), { loop: 200 });

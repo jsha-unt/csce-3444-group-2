@@ -74,7 +74,7 @@ export function executionResult(instruction, registers, flags, labelAddresses) {
             }
             break;
         case 'B.NE':
-            if (flags.Z === 1) {
+            if (flags.Z === 0) {
                 regs.PC = labelAddresses[ops[0].token];
             }
             break;
