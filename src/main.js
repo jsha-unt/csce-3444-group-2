@@ -38,8 +38,8 @@ function step() {
     let instruction = progMem[regs.PC / 4];
     if (!instruction) return;
 
-    renderCurrentInstruction(instruction);
     let result = executionResult(instruction, regs, flags, labelAddresses);
+    renderCurrentInstruction(instruction, result);
     updateExecutionResult(result);
 
     for (const name in result.flagsTouched) {

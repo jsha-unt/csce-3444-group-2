@@ -40,7 +40,7 @@ function instructionToText(instruction) {
 }
 
 /* Show the instruction currently being executed */
-export function renderCurrentInstruction(instruction) {
+export function renderCurrentInstruction(instruction, executionResult) {
     let commentEl = document.getElementById('current-instr-comment');
 
     if (instruction.comment) {
@@ -54,6 +54,15 @@ export function renderCurrentInstruction(instruction) {
     if (instruction.label) instrText += instruction.label + ':\n';
     instrText += '    ' + instructionToText(instruction);
     instrEl.textContent = instrText;
+
+    let regs = executionResult.registersTouched;
+    let regsEl = document.getElementById('current-instr-registers');
+    regsEl.innerHTML = '';
+    for (const name in regs) {
+        let el = registerElement(name, regs[name]);
+        el.id = null;
+        regsEl.appendChild(el);
+    }
 }
 
 /* Update just the UI elements affected by the execution result */
