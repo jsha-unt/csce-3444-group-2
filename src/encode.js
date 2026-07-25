@@ -11,7 +11,7 @@ export function encodeInstruction(instruction, labelAddresses) {
 
     if (!schema) return;
 
-    var repr = { ...schema }; // Shallow copy
+    var repr = structuredClone(schema);
 
     switch (repr.format) {
         case 'I':
