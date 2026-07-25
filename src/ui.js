@@ -5,9 +5,17 @@ function intToHex(x) {
 
 /* Returns an element representing a register name and changed value */
 function registerChangeElement(name, startValue, endValue) {
+    var extraText = '';
+
+    switch (name.substring(0, 1)) {
+        case 'X':
+            extraText = '<br>(' + startValue + ' -> ' + endValue + ')';
+            break;
+    }
+
     var card = document.createElement('div');
     card.className = 'register';
-    card.innerHTML = '<span class="name">' + name + '</span><span class="val">' + intToHex(startValue) + ' -> ' + intToHex(endValue) + '<br>(' + startValue + ' -> ' + endValue + ')</span>';
+    card.innerHTML = '<span class="name">' + name + '</span><span class="val">' + intToHex(startValue) + ' -> ' + intToHex(endValue) + extraText + '</span>';
     return card;
 }
 
