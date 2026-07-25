@@ -58,7 +58,7 @@ function instructionToText(instruction) {
 }
 
 /* Show the instruction currently being executed */
-export function renderCurrentInstruction(instruction, executionResult, preRegs) {
+export function renderCurrentInstruction(instruction, labelAddresses, executionResult, preRegs) {
     let commentEl = document.getElementById('current-instr-comment');
 
     if (instruction.comment) {
@@ -86,7 +86,7 @@ export function renderCurrentInstruction(instruction, executionResult, preRegs) 
     }
 
     let encodingEl = document.getElementById('current-instr-encoding');
-    let encoding = encodeInstruction(instruction, {});
+    let encoding = encodeInstruction(instruction, labelAddresses);
     if (encoding) {
         encodingEl.innerText = encoding.binary + '\n' + encoding.hex;
     } else {

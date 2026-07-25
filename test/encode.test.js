@@ -40,6 +40,36 @@ test('ADDI encodes correctly', () => {
     );
 });
 
+test('CBNZ encodes correctly', () => {
+    const instruction = parseOne('CBNZ X1, loop');
+    const result = encodeInstruction(instruction, { loop: 200 });
+    assert.deepEqual(result,
+        {
+            format: 'CB',
+            opcode: '10110101',
+            COND_BR_address: '0000000000011001000',
+            Rt: '00001',
+            binary: '10110101000000000001100100000001',
+            hex: '0xB5001901',
+        }
+    );
+});
+
+test('CBZ encodes correctly', () => {
+    const instruction = parseOne('CBZ X0, loop');
+    const result = encodeInstruction(instruction, { loop: 200 });
+    assert.deepEqual(result,
+        {
+            format: 'CB',
+            opcode: '10110100',
+            COND_BR_address: '0000000000011001000',
+            Rt: '00000',
+            binary: '10110100000000000001100100000000',
+            hex: '0xB4001900',
+        }
+    );
+});
+
 test('SUB encodes correctly', () => {
     const instruction = parseOne('SUB X1, XZR, X16');
     const result = encodeInstruction(instruction, {});

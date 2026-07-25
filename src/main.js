@@ -47,7 +47,7 @@ function step() {
 
     let preRegs = structuredClone(regs);
     let result = executionResult(instruction, regs, flags, labelAddresses);
-    renderCurrentInstruction(instruction, result, preRegs);
+    renderCurrentInstruction(instruction, labelAddresses, result, preRegs);
     updateExecutionResult(result);
 
     for (const name in result.flagsTouched) {
