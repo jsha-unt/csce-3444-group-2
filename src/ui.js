@@ -1,3 +1,5 @@
+import { encodeInstruction } from './encode.js';
+
 /* Returns the 32-bit hex representation of an integer value */
 function intToHex(x) {
     return "0x" + (x >>> 0).toString(16).toUpperCase().padStart(8, "0");
@@ -81,6 +83,14 @@ export function renderCurrentInstruction(instruction, executionResult, preRegs) 
     for (const name in regs) {
         let el = registerChangeElement(name, preRegs[name], regs[name]);
         regsEl.appendChild(el);
+    }
+
+    let encodingEl = document.getElementById('current-instr-encoding');
+    let encoding = encodeInstruction(instruction, {});
+    if (encoding) {
+        encodingEl.innerText = encoding.binary + '\n' + encoding.hex;
+    } else {
+        encodingEl.innerHTML = '&mdash;';
     }
 }
 
