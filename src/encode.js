@@ -2,6 +2,7 @@ let instructionSchemas = {
     ADD: { format: 'R', opcode: '10001011000' },
     ADDI: { format: 'I', opcode: '1001000100' },
     SUB: { format: 'R', opcode: '11001011000' },
+    SUBI: { format: 'I', opcode: '1101000100' },
 }
 
 /*

@@ -56,3 +56,19 @@ test('SUB encodes correctly', () => {
         }
     );
 });
+
+test('SUBI encodes correctly', () => {
+    const instruction = parseOne('SUBI X0, XZR, #1');
+    const result = encodeInstruction(instruction, {});
+    assert.deepEqual(result,
+        {
+            format: 'I',
+            opcode: '1101000100',
+            ALU_immediate: '000000000001',
+            Rn: '11111',
+            Rd: '00000',
+            binary: '11010001000000000000011111100000',
+            hex: '0xD10007E0',
+        }
+    );
+});
