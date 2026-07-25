@@ -68,6 +68,36 @@ test('B encodes negative offset correctly', () => {
     );
 });
 
+test('B.EQ encodes correctly', () => {
+    const instruction = parseOne('B.EQ done');
+    const result = encodeInstruction(instruction, { done: 200 }, 100);
+    assert.deepEqual(result,
+        {
+            format: 'CB',
+            opcode: '01010100',
+            Rt: '00000',
+            COND_BR_address: '0000000000001100100',
+            binary: '01010100000000000000110010000000',
+            hex: '0x54000C80',
+        }
+    );
+});
+
+test('B.NE encodes negative offset correctly', () => {
+    const instruction = parseOne('B.NE loop');
+    const result = encodeInstruction(instruction, { loop: 100 }, 200);
+    assert.deepEqual(result,
+        {
+            format: 'CB',
+            opcode: '01010100',
+            Rt: '00001',
+            COND_BR_address: '1111111111110011100',
+            binary: '01010100111111111111001110000001',
+            hex: '0x54FFF381',
+        }
+    );
+});
+
 test('CBNZ encodes correctly', () => {
     const instruction = parseOne('CBNZ X1, loop');
     const result = encodeInstruction(instruction, { loop: 200 }, 100);

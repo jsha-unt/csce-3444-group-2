@@ -2,6 +2,22 @@ let instructionSchemas = {
     ADD: { format: 'R', opcode: '10001011000' },
     ADDI: { format: 'I', opcode: '1001000100' },
     B: { format: 'B', opcode: '000101' },
+    // B.cond Rt values are the binary encodings of the define values on
+    // https://github.com/ryanhaticus/legv8-disassembler/blob/bf34bd2450c7fb1cd6fadc9d37532187da8810ca/src/lib/cb_instruction/cb_instruction.cpp#L5-L18
+    'B.EQ': { format: 'CB', opcode: '01010100', Rt: '00000' },
+    'B.GE': { format: 'CB', opcode: '01010100', Rt: '01010' },
+    'B.GT': { format: 'CB', opcode: '01010100', Rt: '01100' },
+    'B.HI': { format: 'CB', opcode: '01010100', Rt: '01000' },
+    'B.HS': { format: 'CB', opcode: '01010100', Rt: '00010' },
+    'B.LE': { format: 'CB', opcode: '01010100', Rt: '01101' },
+    'B.LO': { format: 'CB', opcode: '01010100', Rt: '00011' },
+    'B.LS': { format: 'CB', opcode: '01010100', Rt: '01001' },
+    'B.LT': { format: 'CB', opcode: '01010100', Rt: '01011' },
+    'B.MI': { format: 'CB', opcode: '01010100', Rt: '00100' },
+    'B.NE': { format: 'CB', opcode: '01010100', Rt: '00001' },
+    'B.PL': { format: 'CB', opcode: '01010100', Rt: '00101' },
+    'B.VC': { format: 'CB', opcode: '01010100', Rt: '00111' },
+    'B.VS': { format: 'CB', opcode: '01010100', Rt: '00110' },
     BL: { format: 'B', opcode: '100101' },
     CBNZ: { format: 'CB', opcode: '10110101' },
     CBZ: { format: 'CB', opcode: '10110100' },
@@ -32,9 +48,16 @@ export function encodeInstruction(instruction, labelAddresses, instructionAddres
             break;
         }
         case 'CB': {
-            let offset = labelAddresses[ops[1].token] - instructionAddress;
-            repr.COND_BR_address = (offset & 0x7FFFF).toString(2).padStart(19, "0");
-            repr.Rt = parseInt(ops[0].register.slice(1)).toString(2).padStart(5, "0");
+            if (repr.Rt !== undefined) {
+                // B.cond: Rt is the condition code from the schema, label is ops[0]
+                let offset = labelAddresses[ops[0].token] - instructionAddress;
+                repr.COND_BR_address = (offset & 0x7FFFF).toString(2).padStart(19, "0");
+            } else {
+                // CBZ/CBNZ: Rt is the register, label is ops[1]
+                let offset = labelAddresses[ops[1].token] - instructionAddress;
+                repr.COND_BR_address = (offset & 0x7FFFF).toString(2).padStart(19, "0");
+                repr.Rt = parseInt(ops[0].register.slice(1)).toString(2).padStart(5, "0");
+            }
             repr.binary = repr.opcode + repr.COND_BR_address + repr.Rt;
             break;
         }
