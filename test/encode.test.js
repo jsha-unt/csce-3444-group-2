@@ -40,6 +40,20 @@ test('ADDI encodes correctly', () => {
     );
 });
 
+test('B encodes correctly', () => {
+    const instruction = parseOne('B loop');
+    const result = encodeInstruction(instruction, { loop: 200 });
+    assert.deepEqual(result,
+        {
+            format: 'B',
+            opcode: '000101',
+            BR_address: '00000000000000000011001000',
+            binary: '00010100000000000000000011001000',
+            hex: '0x140000C8',
+        }
+    );
+});
+
 test('CBNZ encodes correctly', () => {
     const instruction = parseOne('CBNZ X1, loop');
     const result = encodeInstruction(instruction, { loop: 200 });

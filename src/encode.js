@@ -1,6 +1,8 @@
 let instructionSchemas = {
     ADD: { format: 'R', opcode: '10001011000' },
     ADDI: { format: 'I', opcode: '1001000100' },
+    B: { format: 'B', opcode: '000101' },
+    BL: { format: 'B', opcode: '100101' },
     CBNZ: { format: 'CB', opcode: '10110101' },
     CBZ: { format: 'CB', opcode: '10110100' },
     SUB: { format: 'R', opcode: '11001011000' },
@@ -19,6 +21,12 @@ export function encodeInstruction(instruction, labelAddresses) {
     var repr = structuredClone(schema);
 
     switch (repr.format) {
+        case 'B': {
+            let address = labelAddresses[ops[0].token];
+            repr.BR_address = address.toString(2).padStart(26, "0");
+            repr.binary = repr.opcode + repr.BR_address;
+            break;
+        }
         case 'CB': {
             let address = labelAddresses[ops[1].token];
             repr.COND_BR_address = address.toString(2).padStart(19, "0");
