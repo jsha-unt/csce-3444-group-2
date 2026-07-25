@@ -1,3 +1,15 @@
+// LEGv8 doesn't have an assembly no-op, so we
+// use ADDI XZR, XZR, #0 by convention.
+let noOp = {
+    comment: 'no-op',
+    name: 'ADDI',
+    operands: [
+        { register: 'X31', token: 'XZR' },
+        { register: 'X31', token: 'XZR' },
+        { immediate: 0, token: '#0' },
+    ]
+};
+
 let registerAliases = {
     SP: 'X28', // Stack Pointer
     FP: 'X29', // Frame Pointer
@@ -110,11 +122,15 @@ export function parseAssembly(sourceText) {
                     instructions.push(next);
                     i++;
                 } else {
-                    x.name = 'NOP';
+                    if (!x.comment) x.comment = noOp.comment;
+                    x.name = noOp.name
+                    x.operands = structuredClone(noOp.operands);
                     instructions.push(x);
                 }
             } else {
-                x.name = 'NOP';
+                if (!x.comment) x.comment = noOp.comment;
+                x.name = noOp.name
+                x.operands = structuredClone(noOp.operands);
                 instructions.push(x);
             }
         } else {
