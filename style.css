@@ -82,6 +82,7 @@ button {
     color: var(--text);
     border: 0.5px solid var(--border);
     border-radius: var(--radius);
+    margin: 2pt;
 }
 
 button:hover {

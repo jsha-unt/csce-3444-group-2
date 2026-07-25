@@ -17,6 +17,13 @@ function init() {
     renderRegs(regsEl, regs);
 }
 
+function reset() {
+    init();
+    labelAddresses = null;
+    progMem = null;
+    renderCurrentInstruction({}, {}, {});
+}
+
 // TODO: This is not the real memory system, just a way to get
 // things off the ground for now.
 function loadProgMem(program) {
@@ -52,5 +59,6 @@ function step() {
     }
 }
 
+document.getElementById('reset-state').onclick = reset;
 document.getElementById('step').onclick = step;
 init();
