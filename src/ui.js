@@ -1,4 +1,4 @@
-import { encodeInstruction } from './encode.js';
+import { encodeInstruction, opcodeToInstruction } from './encode.js';
 
 /* Returns the 32-bit hex representation of an integer value */
 function intToHex(x) {
@@ -57,6 +57,75 @@ function instructionToText(instruction) {
     return text;
 }
 
+const SIGNED_FIELDS = new Set(['BR_address', 'COND_BR_address']);
+
+function fieldMeaning(encoding, name) {
+    if (name === 'opcode') return opcodeToInstruction[encoding.opcode] ?? '?';
+    const bits = encoding[name];
+    const unsigned = parseInt(bits, 2);
+    if (SIGNED_FIELDS.has(name) && bits[0] === '1')
+        return (unsigned - (1 << bits.length)).toString();
+    return unsigned.toString();
+}
+
+const FORMAT_FIELDS = {
+    R: ['opcode', 'Rm', 'shamt', 'Rn', 'Rd'],
+    I: ['opcode', 'ALU_immediate', 'Rn', 'Rd'],
+    B: ['opcode', 'BR_address'],
+    CB: ['opcode', 'COND_BR_address', 'Rt'],
+};
+
+function encodingElement(encoding) {
+    const container = document.createElement('div');
+    container.className = 'encoding';
+
+    const fields = document.createElement('div');
+    fields.className = 'encoding-fields';
+
+    for (const name of FORMAT_FIELDS[encoding.format]) {
+        const field = document.createElement('div');
+        field.className = 'encoding-field';
+
+        const label = document.createElement('div');
+        label.className = 'encoding-label';
+        label.textContent = name;
+
+        const bits = document.createElement('div');
+        bits.className = 'encoding-bits';
+        bits.textContent = encoding[name];
+
+        const meaning = document.createElement('div');
+        meaning.className = 'encoding-meaning';
+        meaning.textContent = fieldMeaning(encoding, name);
+
+        field.appendChild(label);
+        field.appendChild(bits);
+        field.appendChild(meaning);
+        fields.appendChild(field);
+    }
+
+    const hexField = document.createElement('div');
+    hexField.className = 'encoding-field';
+
+    const hexLabel = document.createElement('div');
+    hexLabel.className = 'encoding-label';
+    hexLabel.textContent = 'hex';
+
+    const hex = document.createElement('div');
+    hex.className = 'encoding-bits';
+    hex.textContent = encoding.hex;
+
+    hexField.appendChild(hexLabel);
+    hexField.appendChild(hex);
+
+    const break_ = document.createElement('div');
+    break_.style.width = '100%';
+    fields.appendChild(break_);
+    fields.appendChild(hexField);
+    container.appendChild(fields);
+    return container;
+}
+
 /* Show the instruction currently being executed */
 export function renderCurrentInstruction(instruction, labelAddresses, executionResult, preRegs) {
     let commentEl = document.getElementById('current-instr-comment');
@@ -87,8 +156,9 @@ export function renderCurrentInstruction(instruction, labelAddresses, executionR
 
     let encodingEl = document.getElementById('current-instr-encoding');
     let encoding = encodeInstruction(instruction, labelAddresses, preRegs.PC);
+    encodingEl.innerHTML = '';
     if (encoding) {
-        encodingEl.innerText = encoding.binary + '\n' + encoding.hex;
+        encodingEl.appendChild(encodingElement(encoding));
     } else {
         encodingEl.innerHTML = '&mdash;';
     }

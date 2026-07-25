@@ -9,6 +9,10 @@ let instructionSchemas = {
     SUBI: { format: 'I', opcode: '1101000100' },
 }
 
+export const opcodeToInstruction = Object.fromEntries(
+    Object.entries(instructionSchemas).map(([name, { opcode }]) => [opcode, name])
+);
+
 /*
  * Returns the binary encoding of a LEGv8 assembly instruction
  */
