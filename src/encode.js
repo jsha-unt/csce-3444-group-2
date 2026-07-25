@@ -27,13 +27,13 @@ export function encodeInstruction(instruction, labelAddresses, instructionAddres
     switch (repr.format) {
         case 'B': {
             let offset = labelAddresses[ops[0].token] - instructionAddress;
-            repr.BR_address = offset.toString(2).padStart(26, "0");
+            repr.BR_address = (offset & 0x3FFFFFF).toString(2).padStart(26, "0");
             repr.binary = repr.opcode + repr.BR_address;
             break;
         }
         case 'CB': {
             let offset = labelAddresses[ops[1].token] - instructionAddress;
-            repr.COND_BR_address = offset.toString(2).padStart(19, "0");
+            repr.COND_BR_address = (offset & 0x7FFFF).toString(2).padStart(19, "0");
             repr.Rt = parseInt(ops[0].register.slice(1)).toString(2).padStart(5, "0");
             repr.binary = repr.opcode + repr.COND_BR_address + repr.Rt;
             break;
