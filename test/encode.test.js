@@ -42,44 +42,44 @@ test('ADDI encodes correctly', () => {
 
 test('B encodes correctly', () => {
     const instruction = parseOne('B loop');
-    const result = encodeInstruction(instruction, { loop: 200 });
+    const result = encodeInstruction(instruction, { loop: 200 }, 100);
     assert.deepEqual(result,
         {
             format: 'B',
             opcode: '000101',
-            BR_address: '00000000000000000011001000',
-            binary: '00010100000000000000000011001000',
-            hex: '0x140000C8',
+            BR_address: '00000000000000000001100100',
+            binary: '00010100000000000000000001100100',
+            hex: '0x14000064',
         }
     );
 });
 
 test('CBNZ encodes correctly', () => {
     const instruction = parseOne('CBNZ X1, loop');
-    const result = encodeInstruction(instruction, { loop: 200 });
+    const result = encodeInstruction(instruction, { loop: 200 }, 100);
     assert.deepEqual(result,
         {
             format: 'CB',
             opcode: '10110101',
-            COND_BR_address: '0000000000011001000',
+            COND_BR_address: '0000000000001100100',
             Rt: '00001',
-            binary: '10110101000000000001100100000001',
-            hex: '0xB5001901',
+            binary: '10110101000000000000110010000001',
+            hex: '0xB5000C81',
         }
     );
 });
 
 test('CBZ encodes correctly', () => {
     const instruction = parseOne('CBZ X0, loop');
-    const result = encodeInstruction(instruction, { loop: 200 });
+    const result = encodeInstruction(instruction, { loop: 200 }, 100);
     assert.deepEqual(result,
         {
             format: 'CB',
             opcode: '10110100',
-            COND_BR_address: '0000000000011001000',
+            COND_BR_address: '0000000000001100100',
             Rt: '00000',
-            binary: '10110100000000000001100100000000',
-            hex: '0xB4001900',
+            binary: '10110100000000000000110010000000',
+            hex: '0xB4000C80',
         }
     );
 });

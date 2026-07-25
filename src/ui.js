@@ -86,7 +86,7 @@ export function renderCurrentInstruction(instruction, labelAddresses, executionR
     }
 
     let encodingEl = document.getElementById('current-instr-encoding');
-    let encoding = encodeInstruction(instruction, labelAddresses);
+    let encoding = encodeInstruction(instruction, labelAddresses, preRegs.PC);
     if (encoding) {
         encodingEl.innerText = encoding.binary + '\n' + encoding.hex;
     } else {

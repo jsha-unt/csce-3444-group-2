@@ -12,7 +12,7 @@ let instructionSchemas = {
 /*
  * Returns the binary encoding of a LEGv8 assembly instruction
  */
-export function encodeInstruction(instruction, labelAddresses) {
+export function encodeInstruction(instruction, labelAddresses, instructionAddress = 0) {
     let ops = instruction.operands;
     let schema = instructionSchemas[instruction.name];
 
@@ -22,14 +22,14 @@ export function encodeInstruction(instruction, labelAddresses) {
 
     switch (repr.format) {
         case 'B': {
-            let address = labelAddresses[ops[0].token];
-            repr.BR_address = address.toString(2).padStart(26, "0");
+            let offset = labelAddresses[ops[0].token] - instructionAddress;
+            repr.BR_address = offset.toString(2).padStart(26, "0");
             repr.binary = repr.opcode + repr.BR_address;
             break;
         }
         case 'CB': {
-            let address = labelAddresses[ops[1].token];
-            repr.COND_BR_address = address.toString(2).padStart(19, "0");
+            let offset = labelAddresses[ops[1].token] - instructionAddress;
+            repr.COND_BR_address = offset.toString(2).padStart(19, "0");
             repr.Rt = parseInt(ops[0].register.slice(1)).toString(2).padStart(5, "0");
             repr.binary = repr.opcode + repr.COND_BR_address + repr.Rt;
             break;
