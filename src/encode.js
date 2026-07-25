@@ -1,5 +1,7 @@
 let instructionSchemas = {
+    ADD: { format: 'R', opcode: '10001011000' },
     ADDI: { format: 'I', opcode: '1001000100' },
+    SUB: { format: 'R', opcode: '11001011000' },
 }
 
 /*
@@ -19,6 +21,13 @@ export function encodeInstruction(instruction, labelAddresses) {
             repr.Rn = parseInt(ops[1].register.slice(1)).toString(2).padStart(5, "0");
             repr.Rd = parseInt(ops[0].register.slice(1)).toString(2).padStart(5, "0");
             repr.binary = repr.opcode + repr.ALU_immediate + repr.Rn + repr.Rd;
+            break;
+        case 'R':
+            repr.Rm = parseInt(ops[2].register.slice(1)).toString(2).padStart(5, "0");
+            repr.shamt = (instruction.shamt || 0).toString(2).padStart(6, "0");
+            repr.Rn = parseInt(ops[1].register.slice(1)).toString(2).padStart(5, "0");
+            repr.Rd = parseInt(ops[0].register.slice(1)).toString(2).padStart(5, "0");
+            repr.binary = repr.opcode + repr.Rm + repr.shamt + repr.Rn + repr.Rd;
             break;
     }
 

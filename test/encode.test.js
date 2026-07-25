@@ -7,6 +7,23 @@ function parseOne(source) {
     return parseAssembly(source)[0];
 }
 
+test('ADD encodes correctly', () => {
+    const instruction = parseOne('ADD X1, XZR, X16');
+    const result = encodeInstruction(instruction, {});
+    assert.deepEqual(result,
+        {
+            format: 'R',
+            opcode: '10001011000',
+            Rm: '10000',
+            shamt: '000000',
+            Rn: '11111',
+            Rd: '00001',
+            binary: '10001011000100000000001111100001',
+            hex: '0x8B1003E1',
+        }
+    );
+});
+
 test('ADDI encodes correctly', () => {
     const instruction = parseOne('ADDI X0, XZR, #1');
     const result = encodeInstruction(instruction, {});
@@ -19,6 +36,23 @@ test('ADDI encodes correctly', () => {
             Rd: '00000',
             binary: '10010001000000000000011111100000',
             hex: '0x910007E0',
+        }
+    );
+});
+
+test('SUB encodes correctly', () => {
+    const instruction = parseOne('SUB X1, XZR, X16');
+    const result = encodeInstruction(instruction, {});
+    assert.deepEqual(result,
+        {
+            format: 'R',
+            opcode: '11001011000',
+            Rm: '10000',
+            shamt: '000000',
+            Rn: '11111',
+            Rd: '00001',
+            binary: '11001011000100000000001111100001',
+            hex: '0xCB1003E1',
         }
     );
 });
